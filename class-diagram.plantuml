@@ -95,10 +95,9 @@ class ProgramaFidelidade {
     + void aplicarDesconto()
 }
 
-Cliente "1" -- "0..*" Servico: historicoServicos
+Cliente "1" -- "0..*" Servico
 Cliente "1" -- "0..*" Agendamento
 Cliente "1" -- "0..*" Pagamento
-Cliente "1" -- "0..*" Feedback
 Cliente "1" --> "1" Usuario
 
 Funcionario "1" -- "0..*" Agendamento
@@ -111,5 +110,7 @@ Agendamento "1" --> "1" Pagamento
 Pagamento "*" --> "1" MetodoPagamento
 
 ProgramaFidelidade "0..*" --> "1" Cliente
+
+Feedback "0..*" --> "1" Cliente
 
 @enduml
