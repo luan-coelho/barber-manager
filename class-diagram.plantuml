@@ -1,0 +1,115 @@
+@startuml
+
+class Usuario {
+    - UUID id
+    - String nome
+    - String cpf
+    - String email
+    - String telefone
+    + void cadastrar()
+    + void editar()
+    + void excluir()
+}
+
+class Cliente {
+    - UUID id
+    - Usuario usuario
+    + void cadastrar()
+    + void editar()
+    + void excluir()
+}
+
+class Servico {
+    - UUID id
+    - String descricao
+    - BigDecimal preco
+    - int duracao
+    + void cadastrar()
+    + void editar()
+    + void excluir()
+}
+
+class Agendamento {
+    - UUID id
+    - Cliente cliente
+    - Servico servico
+    - Funcionario funcionario
+    - LocalDate data
+    + void agendar()
+    + void editar()
+    + void cancelar()
+}
+
+class Funcionario {
+    - UUID id
+    - Usuario usuario
+    - Perfil perfil
+    - List<Horario> horarios
+    + void cadastrar()
+    + void editar()
+    + void excluir()
+}
+
+enum Perfil {
+    + int ADMINISTRADOR
+    + int FUNCIONARIO
+}
+
+class Horario {
+    - UUID id
+    - Funcionario funcionario
+    - LocalDate data
+    - LocalTime inicio
+    - LocalTime fim
+    + void definirHorario()
+    + void editarHorario()
+}
+
+class Pagamento {
+    - UUID id
+    - Cliente cliente
+    - BigDecimal valor
+    - MetodoPagamento metodo
+    - LocalDate data
+    + void registrarPagamento()
+    + void emitirRecibo()
+}
+
+enum MetodoPagamento {
+    + int DINHEIRO
+    + int CARTAO
+    + int PIX
+}
+
+class Feedback {
+    - UUID id
+    - Cliente cliente
+    - String comentario
+    - int avaliacao
+    + void coletarFeedback()
+}
+
+class ProgramaFidelidade {
+    - UUID id
+    - Cliente cliente
+    - int pontos
+    + void adicionarPontos()
+    + void aplicarDesconto()
+}
+
+Cliente "1" -- "0..*" Servico: historicoServicos
+Cliente "1" -- "0..*" Agendamento
+Cliente "1" -- "0..*" Pagamento
+Cliente "1" -- "0..*" Feedback
+Cliente "1" -- "0..*" ProgramaFidelidade
+Cliente "1" --> "1" Usuario
+
+Funcionario "1" -- "0..*" Agendamento
+Funcionario "1" -- "0..*" Horario
+Funcionario "1" --> "1" Usuario
+Funcionario "*" o-> "1" Perfil
+
+Servico "1" -- "0..*" Agendamento
+Pagamento "*" -- "1" MetodoPagamento
+
+@enduml
