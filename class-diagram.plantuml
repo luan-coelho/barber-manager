@@ -33,6 +33,7 @@ class Agendamento {
     - UUID id
     - Cliente cliente
     - Servico servico
+    - Pagamento pagamento
     - Funcionario funcionario
     - LocalDate data
     + void agendar()
@@ -67,12 +68,9 @@ class Horario {
 
 class Pagamento {
     - UUID id
-    - Cliente cliente
     - BigDecimal valor
     - MetodoPagamento metodo
-    - LocalDate data
-    + void registrarPagamento()
-    + void emitirRecibo()
+    - LocalDateTime dataHora
 }
 
 enum MetodoPagamento {
@@ -101,7 +99,6 @@ Cliente "1" -- "0..*" Servico: historicoServicos
 Cliente "1" -- "0..*" Agendamento
 Cliente "1" -- "0..*" Pagamento
 Cliente "1" -- "0..*" Feedback
-Cliente "1" -- "0..*" ProgramaFidelidade
 Cliente "1" --> "1" Usuario
 
 Funcionario "1" -- "0..*" Agendamento
@@ -109,7 +106,10 @@ Funcionario "1" -- "0..*" Horario
 Funcionario "1" --> "1" Usuario
 Funcionario "*" o-> "1" Perfil
 
-Servico "1" -- "0..*" Agendamento
-Pagamento "*" -- "1" MetodoPagamento
+Agendamento "1" --> "1" Pagamento
+
+Pagamento "*" --> "1" MetodoPagamento
+
+ProgramaFidelidade "0..*" --> "1" Cliente
 
 @enduml
