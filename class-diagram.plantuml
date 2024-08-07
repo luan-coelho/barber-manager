@@ -32,13 +32,21 @@ class Servico {
 class Agendamento {
     - UUID id
     - Cliente cliente
-    - Servico servico
-    - Pagamento pagamento
     - Funcionario funcionario
+    - Servico servico
     - LocalDate data
+    - Pagamento pagamento
+    - StatusAgendamento status
+    - Feedback feedback
     + void agendar()
     + void editar()
     + void cancelar()
+}
+
+enum StatusAgendamento {
+    + int AGENDADO
+    + int CANCELADO
+    + int CONCLUIDO
 }
 
 class Funcionario {
@@ -56,21 +64,14 @@ enum Perfil {
     + int FUNCIONARIO
 }
 
-class Horario {
-    - UUID id
-    - Funcionario funcionario
-    - LocalDate data
-    - LocalTime inicio
-    - LocalTime fim
-    + void definirHorario()
-    + void editarHorario()
-}
-
 class Pagamento {
     - UUID id
     - BigDecimal valor
     - MetodoPagamento metodo
     - LocalDateTime dataHora
+    + void cadastrar()
+    + void editar()
+    + void excluir()
 }
 
 enum MetodoPagamento {
@@ -81,36 +82,27 @@ enum MetodoPagamento {
 
 class Feedback {
     - UUID id
-    - Cliente cliente
     - String comentario
     - int avaliacao
-    + void coletarFeedback()
+    + void cadastrar()
+    + void editar()
+    + void excluir()
 }
 
-class ProgramaFidelidade {
-    - UUID id
-    - Cliente cliente
-    - int pontos
-    + void adicionarPontos()
-    + void aplicarDesconto()
-}
+Cliente "1" -up-> "1" Usuario
 
-Cliente "1" -- "0..*" Servico
-Cliente "1" -- "0..*" Agendamento
-Cliente "1" -- "0..*" Pagamento
-Cliente "1" --> "1" Usuario
-
-Funcionario "1" -- "0..*" Agendamento
-Funcionario "1" -- "0..*" Horario
-Funcionario "1" --> "1" Usuario
+Funcionario "1" -up-> "1" Usuario
 Funcionario "*" o-> "1" Perfil
 
-Agendamento "1" --> "1" Pagamento
+Agendamento "1" o-left-> "1" Cliente
+Agendamento "1" o-> "1" Funcionario
+Agendamento "1" o-> "1" Servico
+Agendamento "1" o-down-> "1" Pagamento
+Agendamento "*" o-down-> "1" StatusAgendamento
+Agendamento "*" o-down-> "1" Feedback
 
-Pagamento "*" --> "1" MetodoPagamento
+Servico "1" --> "1" Cliente
 
-ProgramaFidelidade "0..*" --> "1" Cliente
-
-Feedback "0..*" --> "1" Cliente
+Pagamento "*" o-down-> "1" MetodoPagamento
 
 @enduml
