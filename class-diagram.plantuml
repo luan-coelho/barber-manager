@@ -96,12 +96,10 @@ Funcionario "*" o-> "1" Perfil
 
 Agendamento "1" o-left-> "1" Cliente
 Agendamento "1" o-> "1" Funcionario
-Agendamento "1" o-> "1" Servico
+Agendamento "1" o-down-> "1" Servico
 Agendamento "1" o-down-> "1" Pagamento
 Agendamento "*" o-down-> "1" StatusAgendamento
 Agendamento "*" o-down-> "1" Feedback
-
-Servico "1" --> "1" Cliente
 
 Pagamento "*" o-down-> "1" MetodoPagamento
 
